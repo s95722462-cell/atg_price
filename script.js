@@ -46,15 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to handle search
     function handleSearch() {
-        const searchTerm = searchInput.value.toLowerCase();
+        const searchTerm = searchInput.value.toLowerCase().replace(/-/g, '');
                 if (!searchTerm) {
             resultsTableBody.innerHTML = `<tr><td colspan="8" class="text-center">검색어를 입력해주세요.</td></tr>`;
             return;
         }
         const filteredProducts = allProducts.filter(product => {
-            const codeMatch = product['품목코드'] && product['품목코드'].toLowerCase().includes(searchTerm);
-            const nameMatch = product['품목명'] && product['품목명'].toLowerCase().includes(searchTerm);
-            return codeMatch || nameMatch;
+            const code = (product['품목코드'] || '').toLowerCase().replace(/-/g, '');
+            const name = (product['품목명'] || '').toLowerCase().replace(/-/g, '');
+            return code.includes(searchTerm) || name.includes(searchTerm);
         });
         displayProducts(filteredProducts);
     }
